@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_C_URL")
+}
+
+enum Role {
+  admin
+  staff
+}
+
+enum AppointmentStatus {
+  pending
+  confirmed
+  cancelled
+}
+
+model User {
+  id           String    @id @default(uuid()) @db.Uuid
+  fullName     String    @map("full_name") @db.VarChar(120)
+  email        String    @unique @db.VarChar(254)
+  passwordHash String    @map("password_hash") @db.VarChar(255)
+  role         Role      @default(staff)
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  deletedAt    DateTime? @map("deleted_at") @db.Timestamptz(3)
+
+  appointments Appointment[] @relation("AppointmentCreator")
+
+  @@index([role])
+  @@index([deletedAt])
+  @@map("users")
+}
+
+model Patient {
+  id        String    @id @default(uuid()) @db.Uuid
+  fullName  String    @map("full_name") @db.VarChar(120)
+  cin       String    @unique @db.VarChar(20)
+  phone     String    @db.VarChar(30)
+  birthDate DateTime  @map("birth_date") @db.Date
+  address   String?   @db.VarChar(255)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+
+  appointments Appointment[]
+
+  @@index([fullName])
+  @@index([createdAt])
+  @@index([deletedAt])
+  @@map("patients")
+}
+
+model Appointment {
+  id              String            @id @default(uuid()) @db.Uuid
+  patientId       String            @map("patient_id") @db.Uuid
+  createdById     String            @map("created_by_id") @db.Uuid
+  appointmentDate DateTime          @map("appointment_date") @db.Timestamptz(3)
+  status          AppointmentStatus @default(pending)
+  reason          String?           @db.VarChar(255)
+  notes           String?           @db.Text
+  createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  deletedAt       DateTime?         @map("deleted_at") @db.Timestamptz(3)
+
+  patient   Patient @relation(fields: [patientId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  createdBy User    @relation("AppointmentCreator", fields: [createdById], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([appointmentDate])
+  @@index([status])
+  @@index([appointmentDate, status])
+  @@index([patientId, appointmentDate])
+  @@index([createdById])
+  @@index([deletedAt])
+  @@map("appointments")
+}

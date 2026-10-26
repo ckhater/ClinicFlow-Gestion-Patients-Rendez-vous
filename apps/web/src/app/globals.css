@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ClinicFlow brand palette — exact required values */
+    --primary: 86 124 141; /* #567C8D */
+    --background: 245 239 235; /* #F5EFEB */
+    --secondary: 200 217 230; /* #C8D9E6 */
+
+    --primary-hover: 66 98 112;
+    --primary-foreground: 255 255 255;
+
+    --foreground: 40 57 65;
+    --card: 255 255 255;
+    --card-foreground: 40 57 65;
+    --popover: 255 255 255;
+    --popover-foreground: 40 57 65;
+
+    --secondary-foreground: 40 57 65;
+    --muted: 238 242 244;
+    --muted-foreground: 91 111 122;
+    --accent: 232 240 245;
+    --accent-foreground: 47 69 79;
+
+    --destructive: 180 35 24;
+    --destructive-foreground: 255 255 255;
+    --success: 47 125 91;
+    --success-foreground: 255 255 255;
+    --warning: 141 0 4;
+    --warning-foreground: 255 255 255;
+
+    --border: 214 226 233;
+    --input: 202 216 224;
+    --ring: 86 124 141;
+
+    --sidebar: 54 82 95;
+    --sidebar-foreground: 245 239 235;
+    --sidebar-muted: 190 209 220;
+    --sidebar-active: 75 106 121;
+
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  ::selection {
+    background-color: rgb(var(--secondary));
+    color: rgb(var(--foreground));
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--ring));
+    outline-offset: 2px;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    opacity: 0.55;
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .page-shell {
+    @apply mx-auto w-full max-w-7xl px-4 py-6 md:px-6 lg:px-8 lg:py-8;
+  }
+
+  .card-surface {
+    @apply rounded-lg border border-border/80 bg-card shadow-card;
+  }
+
+  .brand-ring {
+    box-shadow: 0 0 0 6px rgb(var(--secondary) / 0.35);
+  }
+
+  .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgb(var(--muted)) 0%,
+      rgb(248 250 251) 50%,
+      rgb(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

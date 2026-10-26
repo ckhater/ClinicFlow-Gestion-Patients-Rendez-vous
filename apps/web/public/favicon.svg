@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ClinicFlow">
+  <rect width="64" height="64" rx="14" fill="#567C8D"/>
+  <path d="M32 50s-16-9.6-16-22a9 9 0 0 1 16-5.7A9 9 0 0 1 48 28c0 12.4-16 22-16 22Z" fill="#F5EFEB"/>
+  <path d="M24 30h5l2-5 4 10 2-5h5" fill="none" stroke="#567C8D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

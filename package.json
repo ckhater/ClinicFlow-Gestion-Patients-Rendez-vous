@@ -1,0 +1,38 @@
+{
+  "name": "clinicflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ClinicFlow — clinic management system for small medical clinics",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "build": "npm run build -w @clinic/shared && npm run build -w @clinic/api && npm run build -w @clinic/web",
+    "build:shared": "npm run build -w @clinic/shared",
+    "dev": "npm run build:shared && concurrently -n api,web -c cyan,magenta \"npm run dev -w @clinic/api\" \"npm run dev -w @clinic/web\"",
+    "dev:api": "npm run dev -w @clinic/api",
+    "dev:web": "npm run dev -w @clinic/web",
+    "lint": "npm run lint -w @clinic/shared && npm run lint -w @clinic/api && npm run lint -w @clinic/web",
+    "typecheck": "npm run typecheck -w @clinic/shared && npm run typecheck -w @clinic/api && npm run typecheck -w @clinic/web",
+    "test": "npm run test -w @clinic/api && npm run test -w @clinic/web",
+    "test:api": "npm run test -w @clinic/api",
+    "test:web": "npm run test -w @clinic/web",
+    "db:generate": "dotenv -e .env -- npm run db:generate -w @clinic/api",
+    "db:migrate": "dotenv -e .env -- npm run db:migrate -w @clinic/api",
+    "db:migrate:dev": "dotenv -e .env -- npm run db:migrate:dev -w @clinic/api",
+    "db:seed": "dotenv -e .env -- npm run db:seed -w @clinic/api",
+    "db:reset": "dotenv -e .env -- npm run db:reset -w @clinic/api",
+    "db:studio": "dotenv -e .env -- npm run db:studio -w @clinic/api",
+    "docker:up": "docker compose up --build -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "dotenv-cli": "^8.0.0"
+  }
+}
